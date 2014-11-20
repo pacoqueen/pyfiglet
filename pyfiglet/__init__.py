@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 """
 Python FIGlet adaption
@@ -12,6 +13,7 @@ import os
 import re
 import sys
 from optparse import OptionParser
+import time
 
 from .version import __version__
 
@@ -625,6 +627,37 @@ class Figlet(object):
     def getFonts(self):
         return self.Font.getFonts()
 
+    def renderAnimate(self, text):
+        """
+        Devuelve una lista de textos con cada "frame" de la animación.
+        """
+        full_frame = self.renderText(text)
+        len_texto = len(full_frame.split("\n")[0])
+        res = []
+        p = 0   # principio del slice.
+        f = 0   # fin del slice
+        for nframe in range(len_texto)*2:
+            frame = ""
+            for linea in full_frame.split("\n"):
+                frame += linea[p:f] + "\n"
+            res.append(frame)
+            f += 1
+            if f >= len_texto:
+                p += 1
+        return res
+
+    def animate(self, text, fps = 12):
+        """
+        Escribe y borra sucesivamente cada "frame" del texto. Un frame es un
+        "slice" del texto completo desde el principio hasta el final añadiendo
+        y después quitando una columna de cada línea.
+        """
+        for frame in self.renderAnimate(text):
+            print(frame)
+            time.sleep(1.0 / fps)
+            os.system("clear")  # FIXME: Solo sistemas UNIX
+        exit(0)
+
 
 def main():
     parser = OptionParser(version=__version__,
@@ -654,6 +687,8 @@ def main():
                       help='show font\'s information, use with -f FONT')
     parser.add_option('-s', '--smushmode', type='int',
                       help='Set how much the text is smushed (forced together). Provided as binary options (power of 2 integers, see manual). Default is 128 (a lot of smushing).')
+    parser.add_option('-a', '--animate', action='store_true', default=False,
+                      help='Animate text across the screen cleaning and drawing slices of it. Incompatible with flip and reverse.')
     opts, args = parser.parse_args()
 
     if opts.list_fonts:
@@ -689,7 +724,11 @@ def main():
         # Set stdout to binary mode
         sys.stdout = sys.stdout.detach()
 
-    sys.stdout.write((r + '\n').encode('UTF-8'))
+    if not opts.animate:
+        sys.stdout.write((r + '\n').encode('UTF-8'))
+    else:
+        r = f.animate(text)
+        sys.stdout.write((r + '\n').encode('UTF-8'))
     return 0
 
 
