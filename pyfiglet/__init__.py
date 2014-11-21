@@ -636,13 +636,15 @@ class Figlet(object):
         res = []
         p = 0   # principio del slice.
         f = 0   # fin del slice
-        for nframe in range(len_texto)*2:
-            frame = ""
-            for linea in full_frame.split("\n"):
+        rows, columns = map(int, os.popen('stty size', 'r').read().split()) # FIXME: Size of console. Only Linux, I think.
+        lineas = full_frame.split("\n")
+        for nframe in range(len_texto-1)*2:
+            frame = "\n" * ((rows - len(lineas)) / 2)
+            for linea in lineas:
                 frame += linea[p:f] + "\n"
             res.append(frame)
             f += 1
-            if f >= len_texto:
+            if f > columns:
                 p += 1
         return res
 
