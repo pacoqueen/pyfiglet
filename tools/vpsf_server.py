@@ -9,7 +9,23 @@ import socket
 import sys, os
 from thread import *
 import random
+import time
  
+def get_process(nombre):
+    pids = []
+    process = None
+    for i in os.listdir('/proc'):
+        if i.isdigit():
+            pids.append(i)
+    for pid in pids:
+        proc = open(os.path.join('/proc', pid, 'cmdline'), 'r').readline()
+        if nombre in proc:
+            process = pid
+    return process          
+
+def is_running(pid):
+    return os.path.exists("/proc/%s" % str(pid))
+
 HOST = ''    # Symbolic name meaning all available interfaces
 PORT = 12345 # Arbitrary non-privileged port
  
@@ -56,6 +72,9 @@ def clientthread(conn):
             print(comando + "\n")
             os.system(comando)
             conn.sendall(comando + "\n")
+            conn.sendall("Esperando...")
+            while is_running(get_process("pyfiglet")):
+                time.sleep(1)
         conn.sendall("\n\nSiguiente mensaje: ")
     #came out of loop
     conn.close()
