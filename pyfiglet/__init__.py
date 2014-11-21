@@ -648,7 +648,7 @@ class Figlet(object):
                 p += 1
         return res
 
-    def animate(self, text, fps = 12, times = 3):
+    def animate(self, text, fps = 12, times = 1):
         """
         Escribe y borra sucesivamente cada "frame" del texto. Un frame es un
         "slice" del texto completo desde el principio hasta el final añadiendo

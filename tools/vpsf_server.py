@@ -33,6 +33,7 @@ print 'Socket now listening'
 def clientthread(conn):
     #Sending message to connected client
     conn.send('Welcome to the jungle. Escribe tu mensaje:\n') #send only takes string
+    repeat_times = 3
      
     #infinite loop so that function do not terminate and thread do not end.
     while True:
@@ -43,16 +44,19 @@ def clientthread(conn):
         if not data: 
             break
         conn.sendall(reply)
+        conn.sendall("Se repetirá %d veces.\n" % repeat_times)
         texto = data.replace("\n", "")
         fuentes = ["big", "ascii___", "banner3", "chunky", "cricket",
                    "cyberlarge", "doom", "epic", "graceful", "larry3d", "ogre",
                    "slant", "starwars"]
-        fuente = random.choice(fuentes)
-        terminal = "gnome-terminal -t VPSF --full-screen --profile fullscreen"
-        comando = '%s -e "./pyfiglet -a -f %s %s"' % (terminal, fuente, texto)
-        conn.sendall(comando + "\n\nSiguiente mensaje: ")
-        print(comando)
-        os.system(comando)
+        for i in repeat_times:
+            fuente = random.choice(fuentes)
+            terminal = "gnome-terminal -t VPSF --full-screen --profile fullscreen"
+            comando = '%s -e "./pyfiglet -a -f %s %s"' % (terminal, fuente, texto)
+            print(comando + "\n")
+            os.system(comando)
+            conn.sendall(comando + "\n")
+        conn.sendall("\n\nSiguiente mensaje: ")
     #came out of loop
     conn.close()
  
