@@ -638,7 +638,7 @@ class Figlet(object):
         f = 0   # fin del slice
         rows, columns = map(int, os.popen('stty size', 'r').read().split()) # FIXME: Size of console. Only Linux, I think.
         lineas = full_frame.split("\n")
-        for nframe in range(len_texto-1)*2:
+        for nframe in range(len_texto)*2:
             frame = "\n" * ((rows - len(lineas)) / 2)
             for linea in lineas:
                 frame += linea[p:f] + "\n"

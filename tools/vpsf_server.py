@@ -8,6 +8,7 @@ Recibe un texto por el puerto 12345 y lo envía a un terminal con pyfiglet.
 import socket
 import sys, os
 from thread import *
+import random
  
 HOST = ''    # Symbolic name meaning all available interfaces
 PORT = 12345 # Arbitrary non-privileged port
@@ -42,7 +43,8 @@ def clientthread(conn):
         if not data: 
             break
         conn.sendall(reply)
-        fuente = "big"
+        fuentes = "big ascii___ banner3 chunky cricket cyberlarge doom epic graceful larry3d ogre slant starwars"
+        fuente = random.choice(fuentes)
         terminal = "gnome-terminal -t VPSF --full-screen --profile fullscreen"
         os.system('%s -e "./pyfiglet -a -f %s %s"' % (terminal, fuente, data))
     #came out of loop
