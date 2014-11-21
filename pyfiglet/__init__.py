@@ -710,7 +710,7 @@ def main():
     if opts.smushmode:
         fontkwargs['smushMode'] = opts.smushmode
 
-    text = ' '.join(args)
+    text = ' '.join([a.decode(sys.stdin.encoding, errors = "ignore") for a in args])
 
     f = Figlet(
         font=opts.font, direction=opts.direction,
