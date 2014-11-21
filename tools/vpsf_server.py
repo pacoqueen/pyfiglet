@@ -43,7 +43,9 @@ def clientthread(conn):
         if not data: 
             break
         conn.sendall(reply)
-        fuentes = "big ascii___ banner3 chunky cricket cyberlarge doom epic graceful larry3d ogre slant starwars"
+        fuentes = ["big ascii___", "banner3", "chunky", "cricket",
+                   "cyberlarge", "doom", "epic", "graceful", "larry3d", "ogre",
+                   "slant", "starwars"]
         fuente = random.choice(fuentes)
         terminal = "gnome-terminal -t VPSF --full-screen --profile fullscreen"
         os.system('%s -e "./pyfiglet -a -f %s %s"' % (terminal, fuente, data))
