@@ -49,7 +49,7 @@ def clientthread(conn):
         fuentes = ["big", "ascii___", "banner3", "chunky", "cricket",
                    "cyberlarge", "doom", "epic", "graceful", "larry3d", "ogre",
                    "slant", "starwars"]
-        for i in repeat_times:
+        for i in range(repeat_times):
             fuente = random.choice(fuentes)
             terminal = "gnome-terminal -t VPSF --full-screen --profile fullscreen"
             comando = '%s -e "./pyfiglet -a -f %s %s"' % (terminal, fuente, texto)
