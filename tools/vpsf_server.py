@@ -43,12 +43,16 @@ def clientthread(conn):
         if not data: 
             break
         conn.sendall(reply)
+        texto = data.replace("\n", "")
         fuentes = ["big", "ascii___", "banner3", "chunky", "cricket",
                    "cyberlarge", "doom", "epic", "graceful", "larry3d", "ogre",
                    "slant", "starwars"]
         fuente = random.choice(fuentes)
         terminal = "gnome-terminal -t VPSF --full-screen --profile fullscreen"
-        os.system('%s -e "./pyfiglet -a -f %s %s"' % (terminal, fuente, data))
+        comando = '%s -e "./pyfiglet -a -f %s %s"' % (terminal, fuente, texto)
+        conn.sendall(comando)
+        print(comando)
+        os.system(comando)
     #came out of loop
     conn.close()
  
