@@ -50,7 +50,7 @@ def clientthread(conn):
         fuente = random.choice(fuentes)
         terminal = "gnome-terminal -t VPSF --full-screen --profile fullscreen"
         comando = '%s -e "./pyfiglet -a -f %s %s"' % (terminal, fuente, texto)
-        conn.sendall(comando)
+        conn.sendall(comando + "\n\nSiguiente mensaje: ")
         print(comando)
         os.system(comando)
     #came out of loop
