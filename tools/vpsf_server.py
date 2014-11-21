@@ -44,7 +44,7 @@ def clientthread(conn):
         conn.sendall(reply)
         fuente = "big"
         terminal = "gnome-terminal -t VPSF --full-screen --profile fullscreen"
-        os.system("%s -e ./pyfiglet -a -f %s %s" % (terminal, fuente, data))
+        os.system('%s -e "./pyfiglet -a -f %s %s"' % (terminal, fuente, data))
     #came out of loop
     conn.close()
  
